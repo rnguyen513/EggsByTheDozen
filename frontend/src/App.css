@@ -5,11 +5,12 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  animation: combinedAnimation infinite 3s linear;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: combinedAnimation infinite 10s linear;
   }
 }
 
@@ -28,11 +29,23 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes combinedAnimation {
+  0%, 100% {
+    transform: rotate(0deg) translate(-100px, 0) scale(0.2);
   }
-  to {
-    transform: rotate(360deg);
+  10%, 90% {
+    transform: rotate(40deg) translate(0, -200px) scale(0.3);
+  }
+  20%, 80% {
+    transform: rotate(80deg) translate(100px, 0) scale(0.4);
+  }
+  30%, 70% {
+    transform: rotate(120deg) translate(0, 200px) scale(0.5);
+  }
+  40%, 60% {
+    transform: rotate(160deg) translate(-100px, 0) scale(0.6);
+  }
+  50% {
+    transform: rotate(200deg) translate(0, -300px) scale(0.7);
   }
 }

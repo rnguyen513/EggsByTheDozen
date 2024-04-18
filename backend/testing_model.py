@@ -11,8 +11,12 @@ def return_num(contents):
     result = model.predict("uploads/"+str(contents), confidence=40, overlap=30).json()
 
     labels = [item["class"] for item in result["predictions"]]
-    print(len(labels))
-    return len(labels)
+    sum_egg = sum([item["confidence"] for item in result["predictions"]])
+    final_count = (len(labels) + sum_egg)/2
+    score = final_count * 50
+    return score
+
+return_num("eggcountimage.jpg")
 
 
 # detections = sv.Detections.from_inference(result)

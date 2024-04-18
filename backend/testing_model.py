@@ -2,14 +2,18 @@ from roboflow import Roboflow
 import supervision as sv
 import cv2
 
-rf = Roboflow(api_key="bFXj3Gxls3mCRVqByeuO")
-project = rf.workspace().project("ovos-de-parasitas-azoug")
-model = project.version(6).model
+def return_num(contents):
 
-result = model.predict("Trichuris-Trichiura--2-_jpg.rf.f9f4da80111a69bd5798aeb4d149a21c.jpg", confidence=40, overlap=30).json()
+    rf = Roboflow(api_key="bFXj3Gxls3mCRVqByeuO")
+    project = rf.workspace().project("ovos-de-parasitas-azoug")
+    model = project.version(6).model
 
-labels = [item["class"] for item in result["predictions"]]
-print(len(labels))
+    result = model.predict("uploads/"+str(contents), confidence=40, overlap=30).json()
+
+    labels = [item["class"] for item in result["predictions"]]
+    print(len(labels))
+    return len(labels)
+
 
 # detections = sv.Detections.from_inference(result)
 #

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>all</folder>
+	<filename>Process_4702_z_-140_0.7.png</filename>
+	<path>C:\Users\ccllab\Desktop\2019_8_27\剪取資料集\Fasciola_hepatica_egg(30-6406)\cut_upper\300_300_cut_img\all\Process_4702_z_-140_0.7.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>300</width>
+		<height>300</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Fasciola_hepatica_egg</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>59</xmin>
+			<ymin>60</ymin>
+			<xmax>203</xmax>
+			<ymax>211</ymax>
+		</bndbox>
+	</object>
+</annotation>

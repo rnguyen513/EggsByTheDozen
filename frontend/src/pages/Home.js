@@ -1,108 +1,203 @@
-import React, { useState } from "react";
-import eggz from "../eggs.jpg"
+import React, { useState, useEffect } from "react";
+import eggz from "../common/eggs.jpg";
 
 export const ImageForm = () => {
-
-    const endpoint_calculation = "http://localhost:8000/upload-images"
-
-    const [file_upload, setFirstImage] = useState(null);
-    const [file_upload2, setSecondImage] = useState(null);
+    const endpoint_calculation = "http://localhost:8000/upload-images";
+    const [fileUpload, setFirstImage] = useState(null);
+    const [fileUpload2, setSecondImage] = useState(null);
     const [severity, setSeverity] = useState(null);
-  
     const [eggNo, setEggNo] = useState(null);
-    const [loading, setLoading] = useState(null);
-  
-    const handleFirstImageChange = (event) => {
-      setFirstImage(event.target.files[0]);
-    };
-  
-    const handleSecondImageChange = (event) => {
-      setSecondImage(event.target.files[0]);
-    };
-  
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      setLoading(true)
-  
-      const formData = new FormData();
-      formData.append('file_upload', file_upload);
-      formData.append('file_upload2', file_upload2);
-  
-      //post to server maybe????
-      const response = await fetch(endpoint_calculation, {
-        method: 'POST',
-        body: formData,
-      })
-      
-      if(response.ok){
-        console.log("Success")
-        console.log(response)
-        const response_data = await response.json()
-        const average_num = response_data.Average
-        setEggNo(average_num);
-        if (average_num >= 250 && average_num < 400){
-          setSeverity("Mild infection");
-        } else if (average_num >= 400 && average_num < 750){
-          setSeverity("Moderate infection");
-        } else if (average_num >= 750){
-          setSeverity("Severe infection");
-        } else {
-          setSeverity("Low Risk of infection");
-        }
-        
-      } else {
-        console.error("No video selected")
-      }
+    const [loading, setLoading] = useState(false);
 
-      setLoading(false)
+    const handleImageChange = (setter) => (event) => {
+        setter(event.target.files[0]);
     };
-  
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+
+        const formData = new FormData();
+        formData.append('file_upload', fileUpload);
+        formData.append('file_upload2', fileUpload2);
+
+        const response = await fetch(endpoint_calculation, {
+            method: 'POST',
+            body: formData,
+        });
+
+        const responseData = await response.json();
+        if (response.ok) {
+            const averageNum = responseData.Average;
+            setEggNo(averageNum);
+            setSeverity(getSeverityLevel(averageNum));
+        } else {
+            console.error("Error in image submission");
+        }
+
+        setLoading(false);
+    };
+
+    const getSeverityLevel = (averageNum) => {
+        if (averageNum >= 750) return "Severe";
+        if (averageNum >= 400) return "Moderate";
+        if (averageNum >= 250) return "Mild";
+        return "Low Risk";
+    };
+
     return (
-      <div>
-        <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
-          <p>Upload the first image to be processed:</p>
-          <input
-            type="file"
-            alt="img-upload"
-            className="hover:text-blue-200 hover:cursor-pointer"
-            onChange={handleFirstImageChange}
-            accept="image/*"
-          />
-  
-          <p>Upload the second image to be processed:</p>
-          <input
-            type="file"
-            alt="img-upload"
-            className="hover:text-blue-200 hover:cursor-pointer"
-            onChange={handleSecondImageChange}
-            accept="image/*"
-          />
-  
-          <input
-            type="submit"
-            value="Submit Images!"
-            className="bg-red-200/10 rounded-lg hover:text-blue-300 hover:cursor-pointer"
-          />
-        </form>
-        <h1>McMaster Score: {loading ? "Loading...": (eggNo ? <b className="font-bold text-5xl text-red-400">{eggNo}</b> :null)}</h1>
-        <h1>Severity: {loading ? "Loading...": (severity ? <b className="font-bold text-5xl text-red-400">{severity}</b> :null)}</h1>
-      </div>
+        <div className="w-1/4 mx-auto bg-white p-6 border border-gray-200 mt-10 rounded-lg shadow-sm">
+            <form className="space-y-4" onSubmit={handleSubmit}>
+                <FileInput label="First Image:" onChange={handleImageChange(setFirstImage)} />
+                <FileInput label="Second Image:" onChange={handleImageChange(setSecondImage)} />
+                <SubmitButton />
+            </form>
+            <ResultsDisplay loading={loading} eggNo={eggNo} severity={severity} />
+        </div>
     );
-  };
+};
+
+const Testimonials = () => {
+  return (
+    <div className="bg-gray-100 py-8 text-2xl font-bold mt-20 ring-black ring-4 rounded-xl">
+      <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font text-center">What Our Customers Say</h2>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white p-4 shadow rounded-lg">
+                  <p className="text-gray-600">"Amazing product! Really helped me out, will definitely use again!"</p>
+                  <div className="mt-4 text-sm text-gray-700">
+                      — Jane Doe, <span className="text-gray-500">CEO at Example</span>
+                  </div>
+              </div>
+              <div className="bg-white p-4 shadow rounded-lg">
+                  <p className="text-gray-600">"The customer service was top-notch, and the delivery was on time. Highly recommend."</p>
+                  <div className="mt-4 text-sm text-gray-700">
+                      — John Smith, <span className="text-gray-500">Freelancer</span>
+                  </div>
+              </div>
+              <div className="bg-white p-4 shadow rounded-lg">
+                  <p className="text-gray-600">"I’ve used this service for a year now and my experience has been nothing but excellent."</p>
+                  <div className="mt-4 text-sm text-gray-700">
+                      — Sarah Wilson, <span className="text-gray-500">Blogger</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  )
+}
+
+const Footer = () => {
+  return (
+      <footer className="absolute bottom-0 w-full min-w-screen bg-gray-800 text-white mt-12">
+          <div className="mx-auto px-4 py-6">
+              <div className="text-center text-sm">
+                  © {new Date().getFullYear()} Alex Yung, Tanishk Govil, Sharon Biju, Shaunak Sinha, Ryan Nguyen. All rights reserved.
+              </div>
+          </div>
+      </footer>
+  );
+};
+
+
+const FileInput = ({ label, onChange }) => (
+    <div>
+        <label className="block text-lg font-bold text-gray-900">{label}</label>
+        <input
+            type="file"
+            className="mt-2 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500"
+            onChange={onChange}
+            accept="image/*"
+        />
+    </div>
+);
+
+const SubmitButton = () => (
+    <button
+        type="submit"
+        className="w-full py-3 mt-3 bg-indigo-600 text-white font-bold text-3xl hover:bg-indigo-700 rounded-md shadow"
+    >
+        Analyze
+    </button>
+);
+
+const ResultsDisplay = ({ loading, eggNo, severity }) => (
+    <div className="mt-6 text-center text-3xl">
+        <h1 className="text font-bold text-gray-900">McMaster Score: {loading ? "Analyzing..." : <b className="text-red-200">{eggNo}</b>}</h1>
+        <h2 className="text font-bold text-gray-900">Severity: {loading ? "Please wait" : severity}</h2>
+    </div>
+);
+
+const VirusAlert = ({setShowVirus}) => {
+
+  const [fileCount, setFileCount] = useState(1);
+  const [done, setDone] = useState("");
+
+  useEffect(() => {
+    if (fileCount < 1000) {
+        const increment = 28;
+        const timer = setTimeout(() => setFileCount(fileCount + increment), 20);
+        return () => clearTimeout(timer);
+    }
+    else {
+      if (!done) {
+        setDone("A");
+        return;
+      }
+      const timer = setTimeout(() => setDone(done + "A"), 20);
+      return () => clearTimeout(timer);
+    }
+}, [fileCount, done]);
+
+  return (
+      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50 text-wrap">
+          <div className="bg-red-600 text-white p-4 rounded-lg shadow-lg p-40 text-4xl text-wrap">
+              <h2 className="text-5xl font-bold">WARNING: VIRUS DETECTED!</h2>
+              <p>Accessing bank credentials... downloading files {fileCount}/16353...</p>
+              <p className="text-wrap whitespace-normal">{done}</p>
+              {/* <button onClick={() => {setShowVirus(false); setFileCount(1);}} className="mt-4 bg-white text-black px-4 py-2 rounded shadow">
+                  Close
+              </button> */}
+          </div>
+      </div>
+  );
+};
 
 const Home = () => {
-    return(
-        <div>
-            <header className="App-header">
-                <div className="">
-                    <img src={eggz} className="App-logo rounded-2xl" alt="logo"/>
-                </div>
+  
+  const [showVirus, setShowVirus] = useState(false);
 
-                <h1 className="text-5xl font-bold text-blue-200 mb-10">Eggs By The Dozen</h1>
-                <ImageForm/>
-            </header>
-        </div>
-    )
-}
+  useEffect(() => {
+      const handleKeyPress = (event) => {
+          if (event.key === 'q') {
+              setShowVirus(!showVirus);
+          }
+      };
+
+      window.addEventListener('keydown', handleKeyPress);
+
+      return () => {
+          window.removeEventListener('keydown', handleKeyPress);
+      };
+  }, [showVirus]);
+
+  return(
+    <div className="">
+        <header className="bg-gray-900 text-white py-4">
+            <div className="container mx-auto px-4 flex items-center justify-center">
+                <img src={eggz} className="h-12 w-12 rounded-full" alt="logo" />
+                <h1 className="text-2xl font-bold ml-3">Eggs By The Dozen</h1>
+            </div>
+        </header>
+        <main className="flex flex-col items-center mt-8">
+          <p className="font-bold text-4xl">Two images to calculate avg. <a href="https://www.google.com" className="text-blue-400 hover:underline hover:cursor:pointer">McMaster Score &#9432;</a></p>
+          <ImageForm />
+          <Testimonials />
+        </main>
+        {showVirus && <VirusAlert setShowVirus={setShowVirus} />}
+        <Footer />
+    </div>
+  );
+};
 
 export default Home;

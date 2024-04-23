@@ -32,6 +32,7 @@ export const ImageForm = () => {
       .then(data => console.log('Success:', data))
       .catch((error) => console.error('Error:', error));
   
+      //random egg count for now
       setEggNo(Math.floor(Math.random()*99)+1);
     };
   

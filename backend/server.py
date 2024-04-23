@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File
 from fastapi.middleware.cors import CORSMiddleware
-from inference_sdk import InferenceHTTPClient
+#from inference_sdk import InferenceHTTPClient
 from fastapi.responses import FileResponse
 from fastapi import UploadFile
 from testing_model import return_num

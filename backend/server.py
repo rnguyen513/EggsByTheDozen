@@ -23,14 +23,23 @@ def home():
     return {"Data": "Test"}
 
 @app.post("/upload-images")
-async def upload_images(file_upload: UploadFile):
+async def upload_images(file_upload: UploadFile, file_upload2: UploadFile):
    file_path = os.path.join("uploads", file_upload.filename)
+   second_file_path = os.path.join("uploads", file_upload2.filename)
    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+   os.makedirs(os.path.dirname(second_file_path), exist_ok=True)
    with open(file_path, "wb") as buffer:
     shutil.copyfileobj(file_upload.file, buffer)
 
+    with open(second_file_path, "wb") as buffer:
+       shutil.copyfileobj(file_upload2.file, buffer)
+
    numOfEggs = return_num(file_upload.filename)
-   return numOfEggs
+   numOfEggs2 = return_num(file_upload2.filename)
+
+   average = (numOfEggs + numOfEggs2) /2
+   print(average)
+   return {"Average": int(average)}
 
    """
    contents = await file_upload.read()

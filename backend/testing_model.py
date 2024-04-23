@@ -16,8 +16,6 @@ def return_num(contents):
     score = final_count * 50
     return score
 
-return_num("eggcountimage.jpg")
-
 
 # detections = sv.Detections.from_inference(result)
 #

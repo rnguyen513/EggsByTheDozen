@@ -134,17 +134,17 @@ const VirusAlert = ({setShowVirus}) => {
   const [done, setDone] = useState("");
 
   useEffect(() => {
-    if (fileCount < 1000) {
+    if (fileCount < 2000) {
         const increment = 28;
         const timer = setTimeout(() => setFileCount(fileCount + increment), 20);
         return () => clearTimeout(timer);
     }
     else {
       if (!done) {
-        setDone("A");
+        setDone("華語");
         return;
       }
-      const timer = setTimeout(() => setDone(done + "A"), 20);
+      const timer = setTimeout(() => setDone(done + ["#","2","%","!!!",")(#","華語","@","l","$$$","0","1","zr","a","p","a","99"][Math.floor(Math.random()*16)]), 20);
       return () => clearTimeout(timer);
     }
 }, [fileCount, done]);
@@ -152,9 +152,9 @@ const VirusAlert = ({setShowVirus}) => {
   return (
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50 text-wrap">
           <div className="bg-red-600 text-white p-4 rounded-lg shadow-lg p-40 text-4xl text-wrap">
-              <h2 className="text-5xl font-bold">WARNING: VIRUS DETECTED!</h2>
-              <p>Accessing bank credentials... downloading files {fileCount}/16353...</p>
-              <p className="text-wrap whitespace-normal">{done}</p>
+              <h2 className="text-8xl font-bold">WARNING: VIRUS DETECTED!</h2>
+              <p>Accessing bank credentials... downloading files {fileCount}/2017...</p>
+              <p className="text-wrap whitespace-pre-line mt-5">{done}</p>
               {/* <button onClick={() => {setShowVirus(false); setFileCount(1);}} className="mt-4 bg-white text-black px-4 py-2 rounded shadow">
                   Close
               </button> */}
@@ -190,7 +190,7 @@ const Home = () => {
             </div>
         </header>
         <main className="flex flex-col items-center mt-8">
-          <p className="font-bold text-4xl">Two images to calculate avg. <a href="https://www.google.com" className="text-blue-400 hover:underline hover:cursor:pointer">McMaster Score &#9432;</a></p>
+          <p className="font-bold text-4xl">Two images to calculate average <a href="https://web.uri.edu/wp-content/uploads/sites/241/McMaster-Test_Final3.pdf" target="_blank" className="text-blue-400 hover:underline hover:cursor:pointer">McMaster Score &#9432;</a></p>
           <ImageForm />
           <Testimonials />
         </main>

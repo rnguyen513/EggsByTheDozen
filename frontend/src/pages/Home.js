@@ -15,6 +15,13 @@ export const ImageForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!fileUpload || !fileUpload2) {
+          console.log("NO IMG1 OR IMG2!!!");
+          setEggNo("NEED BOTH IMG1 & IMG2!!!");
+          return;
+        }
+
         setLoading(true);
 
         const formData = new FormData();
@@ -112,18 +119,18 @@ const FileInput = ({ label, onChange }) => (
     </div>
 );
 
-const SubmitButton = () => (
-    <button
-        type="submit"
-        className="w-full py-3 mt-3 bg-indigo-600 text-white font-bold text-3xl hover:bg-indigo-700 rounded-md shadow"
-    >
-        Analyze
-    </button>
+const SubmitButton = ({img1, img2}) => (
+  <button
+      type="submit"
+      className="w-full py-3 mt-3 bg-indigo-600 text-white font-bold text-3xl hover:bg-indigo-700 rounded-md shadow"
+  >
+      Analyze
+  </button>
 );
 
 const ResultsDisplay = ({ loading, eggNo, severity }) => (
     <div className="mt-6 text-center text-3xl">
-        <h1 className="text font-bold text-gray-900">McMaster Score: {loading ? "Analyzing..." : <b className="text-red-200">{eggNo}</b>}</h1>
+        <h1 className="text font-bold text-gray-900">McMaster Score: {loading ? "Analyzing..." : <b className="text-red-400">{eggNo}</b>}</h1>
         <h2 className="text font-bold text-gray-900">Severity: {loading ? "Please wait" : severity}</h2>
     </div>
 );
@@ -190,7 +197,7 @@ const Home = () => {
             </div>
         </header>
         <main className="flex flex-col items-center mt-8">
-          <p className="font-bold text-4xl">Two images to calculate average <a href="https://web.uri.edu/wp-content/uploads/sites/241/McMaster-Test_Final3.pdf" target="_blank" className="text-blue-400 hover:underline hover:cursor:pointer">McMaster Score &#9432;</a></p>
+          <p className="font-bold text-4xl">Two images to calculate average <a href="https://web.uri.edu/wp-content/uploads/sites/241/McMaster-Test_Final3.pdf" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline hover:cursor:pointer">McMaster Score &#9432;</a></p>
           <ImageForm />
           <Testimonials />
         </main>

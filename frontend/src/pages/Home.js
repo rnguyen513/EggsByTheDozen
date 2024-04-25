@@ -65,31 +65,37 @@ export const ImageForm = () => {
 };
 
 const Testimonials = () => {
+    const [visible, setVisible] = useState(true);
+
   return (
-    <div className="bg-gray-100 py-8 text-2xl font-bold mt-20 ring-black ring-4 rounded-xl">
-      <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font text-center">What Our Customers Say</h2>
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 shadow rounded-lg">
-                  <p className="text-gray-600">"Amazing product! Really helped me out, will definitely use again!"</p>
-                  <div className="mt-4 text-sm text-gray-700">
-                      — Jane Doe, <span className="text-gray-500">CEO at Example</span>
-                  </div>
-              </div>
-              <div className="bg-white p-4 shadow rounded-lg">
-                  <p className="text-gray-600">"The customer service was top-notch, and the delivery was on time. Highly recommend."</p>
-                  <div className="mt-4 text-sm text-gray-700">
-                      — John Smith, <span className="text-gray-500">Freelancer</span>
-                  </div>
-              </div>
-              <div className="bg-white p-4 shadow rounded-lg">
-                  <p className="text-gray-600">"I’ve used this service for a year now and my experience has been nothing but excellent."</p>
-                  <div className="mt-4 text-sm text-gray-700">
-                      — Sarah Wilson, <span className="text-gray-500">Blogger</span>
-                  </div>
-              </div>
-          </div>
-      </div>
+    <div>
+        {visible ?
+        (<div className="bg-gray-100 py-8 text-2xl font-bold mt-20 ring-black ring-4 rounded-xl">
+            <div className="max-w-6xl mx-auto px-4">
+            <a className="absolute text-3xl text-red-400 rounded-full font-bold hover:cursor-pointer" href={null} onClick={() => {setVisible(false)}}>X</a>
+                <h2 className="text-2xl font text-center">What Our Customers Say</h2>
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-white p-4 shadow rounded-lg">
+                        <p className="text-gray-600">"Amazing product! Really helped me out, will definitely use again!"</p>
+                        <div className="mt-4 text-sm text-gray-700">
+                            — Jane Doe, <span className="text-gray-500">CEO at Example</span>
+                        </div>
+                    </div>
+                    <div className="bg-white p-4 shadow rounded-lg">
+                        <p className="text-gray-600">"The customer service was top-notch, and the delivery was on time. Highly recommend."</p>
+                        <div className="mt-4 text-sm text-gray-700">
+                            — John Smith, <span className="text-gray-500">Freelancer</span>
+                        </div>
+                    </div>
+                    <div className="bg-white p-4 shadow rounded-lg">
+                        <p className="text-gray-600">"I’ve used this service for a year now and my experience has been nothing but excellent."</p>
+                        <div className="mt-4 text-sm text-gray-700">
+                            — Sarah Wilson, <span className="text-gray-500">Blogger</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>) : (null)}
     </div>
   )
 }
@@ -188,8 +194,12 @@ const Home = () => {
       };
   }, [showVirus]);
 
+  useEffect(() => {
+    document.title = "Eggs By The Dozen";
+  }, []);
+
   return(
-    <div className="">
+    <div className="overflow-hidden">
         <header className="bg-gray-900 text-white py-4">
             <div className="container mx-auto px-4 flex items-center justify-center">
                 <img src={eggz} className="h-12 w-12 rounded-full" alt="logo" />
